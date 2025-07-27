@@ -1,50 +1,65 @@
 {
-  "name": "doki-doc",
-  "displayName": "doki-doc",
-  "description": "Genera documentacion Markdown y diagramas Mermaid",
-  "version": "0.0.3",
+  "name": "doki-docs",
+  "displayName": "Doki Docs",
+  "description": "",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.100.0"
   },
-  "categories": ["Other"],
-  "publisher": "miguelduenas",
-  "main": "./extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "doki.docKarate",
-        "title": "Doki: Generar Documentación de un archivo .feature"
-      }
-    ],
-    "copilot": {
-      "agents": [
-        {
-          "id": "doki",
-          "name": "doki",
-          "entrypoint": "./copilot-agent.json"
-        }
-      ]
-    }
+  "categories": [
+    "AI",
+    "Chat"
+  ],
+  "publisher": "Miguel Dueñas",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/tu-repo.git"
   },
   "activationEvents": [
-    "onCommand:doki.docKarate",
-    "onStartupFinished"
+    "onChatParticipant:doki"
   ],
-  "copilot-agent": true,
+  "main": "./out/extension.js",
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "chat-doc.doki",
+        "fullName": "Doki",
+        "name": "doki",
+        "description": "Asistente de documentación con diagramas.",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "doc-karate",
+            "description": "Genera documentación con diagramas de secuencia de un archivo .feature."
+          },
+          {
+            "name": "doc-karate-all",
+            "description": "Genera documentación para todos los archivos .feature del proyecto."
+          }
+        ]
+      }
+    ]
+  },
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "vscode-test"
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint",
+    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.100.0",
-    "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2",
-    "eslint": "^9.25.1"
-  },
-  "dependencies": {
-    "gherkin-parser": "^1.0.1"
+    "@eslint/js": "^9.13.0",
+    "@stylistic/eslint-plugin": "^2.9.0",
+    "@types/mocha": "^10.0.3",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.94.0",
+    "@vscode/test-electron": "^2.3.6",
+    "eslint": "^9.13.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.2.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.0"
   }
 }

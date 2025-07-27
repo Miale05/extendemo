@@ -1,25 +1,44 @@
-import globals from "globals";
+/**
+ * ESLint configuration for the project.
+ * 
+ * See https://eslint.style and https://typescript-eslint.io for additional linting options.
+ */
+// @ts-check
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import stylistic from '@stylistic/eslint-plugin';
 
-export default [{
-    files: ["**/*.js"],
-    languageOptions: {
-        globals: {
-            ...globals.commonjs,
-            ...globals.node,
-            ...globals.mocha,
-        },
-
-        ecmaVersion: 2022,
-        sourceType: "module",
-    },
-
-    rules: {
-        "no-const-assign": "warn",
-        "no-this-before-super": "warn",
-        "no-undef": "warn",
-        "no-unreachable": "warn",
-        "no-unused-vars": "warn",
-        "constructor-super": "warn",
-        "valid-typeof": "warn",
-    },
-}];
+export default tseslint.config(
+	{
+		ignores: [
+			'.vscode-test',
+			'out',
+		]
+	},
+	js.configs.recommended,
+	...tseslint.configs.recommended,
+	...tseslint.configs.stylistic,
+	{
+		plugins: {
+			'@stylistic': stylistic
+		},
+		rules: {
+			'curly': 'warn',
+			'@stylistic/semi': ['warn', 'always'],
+			'@typescript-eslint/no-empty-function': 'off',
+			'@typescript-eslint/naming-convention': [
+				'warn',
+				{
+					'selector': 'import',
+					'format': ['camelCase', 'PascalCase']
+				}
+			],
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					'argsIgnorePattern': '^_'
+				}
+			]
+		}
+	}
+);
